@@ -1,13 +1,21 @@
 import os
 import pytest
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from pytest_html import extras
+
+CI = bool(os.getenv("CI"))  # GitHub Actions define CI=true
 
 
 @pytest.fixture
 def driver():
-    d = webdriver.Chrome()
-    d.maximize_window()
+    options = Options()
+    if CI:
+        for arg in ("--headless=new", "--no-sandbox", "--disable-dev-shm-usage", "--window-size=1920,1080"):
+            options.add_argument(arg)
+    d = webdriver.Chrome(options=options)
+    if not CI:
+        d.maximize_window()
     yield d
     d.quit()
 

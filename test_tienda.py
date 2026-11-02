@@ -1,9 +1,7 @@
-# El fixture "driver" ahora vive en conftest.py
 from login_page import LoginPage
 
 
 def test_login_fallido(driver):
-    """Prueba de usuario bloqueado."""
     login = LoginPage(driver)
     login.abrir()
     login.ingresar_credenciales("locked_out_user", "secret_sauce")
@@ -12,7 +10,6 @@ def test_login_fallido(driver):
 
 
 def test_login_exitoso(driver):
-    """Prueba de login correcto."""
     login = LoginPage(driver)
     login.abrir()
     login.ingresar_credenciales("standard_user", "secret_sauce")
